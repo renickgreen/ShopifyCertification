@@ -2993,3 +2993,13 @@ details-disclosure > details {
     outline: transparent solid 1px;
   }
 }
+/* custom style for image-banner RGreen*/
+
+
+@media only screen and (min-width: 769px) {
+  
+  .desktop-banner-video{
+    text-align: center;
+    background-color: white;
+  }
+}

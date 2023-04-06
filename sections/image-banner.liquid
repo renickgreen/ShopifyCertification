@@ -33,6 +33,9 @@
   id="Banner-{{ section.id }}"
   class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}"
 >
+
+  
+
   {%- if section.settings.image != blank -%}
     <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}">
       {%- liquid
@@ -48,6 +51,36 @@
           assign sizes = '100vw'
         endif
       -%}
+{%- comment -%} custom code for banner videos RGreen {%- endcomment -%}
+      {% if section.settings.show_video %}
+      <div class='desktop-banner-video'>
+      {{
+        section.settings.video
+        | video_tag:
+        loading: 'lazy', 
+        width: section.settings.video.width, 
+        autoplay: true, 
+        loop: true, 
+        muted: true, 
+        controls: true,
+         widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+      }}
+      </div>
+      <div class='mobile-banner-video'>
+      {{
+        section.settings.video_2
+        | video_tag:
+        loading: 'lazy', 
+        width: section.settings.video.width, 
+        autoplay: true, 
+        loop: true, 
+        muted: true, 
+        controls: true,
+         widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+      }}
+      </div>
+      {% endif %}
+      {% unless section.settings.show_video %}
       {{
         section.settings.image
         | image_url: width: 3840
@@ -59,6 +92,8 @@
           sizes: sizes,
           widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
       }}
+  {% endunless %}
+
     </div>
   {%- elsif section.settings.image_2 == blank -%}
     <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}">
@@ -80,6 +115,7 @@
           assign sizes = '100vw'
         endif
       -%}
+      {% unless section.settings.show_video %}
       {{
         section.settings.image_2
         | image_url: width: 3840
@@ -91,8 +127,14 @@
           sizes: sizes,
           widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
       }}
+  {% endunless %}
+
     </div>
   {%- endif -%}
+  
+ 
+  
+  
   <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
     <div class="banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient">
       {%- for block in section.blocks -%}
@@ -139,7 +181,23 @@
       {%- endfor -%}
     </div>
   </div>
+
 </div>
+{%- comment -%} Custome logic to remove unneeded video RGreen{%- endcomment -%}
+{% javascript %}
+        if (window.innerWidth < 769)
+        { 
+          var videoDiv = document.getElementsByClassName('desktop-banner-video')[0];
+          var parent = document.getElementsByClassName('banner__media')[0];
+          parent.removeChild(videoDiv);
+        }
+        if (window.innerWidth > 768)
+        { 
+          var videoDiv = document.getElementsByClassName('mobile-banner-video')[0];
+          var parent = document.getElementsByClassName('banner__media')[0];
+          parent.removeChild(videoDiv);
+        }
+{% endjavascript %}
 
 {% schema %}
 {
@@ -159,6 +217,22 @@
       "type": "image_picker",
       "id": "image_2",
       "label": "t:sections.image-banner.settings.image_2.label"
+    },
+     {
+      "type": "checkbox",
+      "id": "show_video",
+      "label": "Show Video",
+      "default": false
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Desktop Video"
+    },
+     {
+      "type": "video",
+      "id": "video_2",
+      "label": "Mobile Video"
     },
     {
       "type": "range",
