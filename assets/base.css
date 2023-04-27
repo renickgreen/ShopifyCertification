@@ -3003,3 +3003,16 @@ details-disclosure > details {
     background-color: white;
   }
 }
+
+#upsell_container{
+  background-color: #D7FFE4;
+}
+#upsell_container > h2{
+  text-align: center;
+}
+#upsell_container > div{
+  display: flex;
+}
+#upsell_content > div > p, #upsell-title{
+  margin: 5px 0px;
+}
