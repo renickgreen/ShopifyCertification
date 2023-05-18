@@ -370,15 +370,11 @@
             width="150"
             height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
             >
-            {% for prod in collections['frontpage'].products %}
-              {% if prod.title == settings.upsell_product.title %}
-                {% assign upsellProduct = prod %}
-              {% endif %}
-            {%endfor%}
+          {% assign upsellProduct = all_products[settings.upsell_product] %}
           <div>
             <h5 id='upsell-title'>{{settings.upsell_product.title}}</h5>
             <p>{{settings.upsell_product.price | money}}</p>
-            {% render 'buy-buttons', block: 'data-shopify-editor-block="{"id":"buy_buttons","type":"buy_buttons"}"', product: upsellProduct, product_form_id: "product-form-template--18524748546362__main", section_id: {{section.id}}, show_pickup_availability: true %} 
+            {%- render 'buy-buttons', block: block, product: upsellProduct, product_form_id: product_form_id, section_id: section.id -%}
           </div>
         </div>
       </div>

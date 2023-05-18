@@ -53,7 +53,7 @@
       -%}
 {%- comment -%} custom code for banner videos RGreen {%- endcomment -%}
       {% if section.settings.show_video %}
-      <div class='desktop-banner-video'>
+      <div class='desktop-banner-video hidden'>
       {{
         section.settings.video
         | video_tag:
@@ -62,11 +62,11 @@
         autoplay: true, 
         loop: true, 
         muted: true, 
-        controls: true,
+        controls: false,
          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
       }}
       </div>
-      <div class='mobile-banner-video'>
+      <div class='mobile-banner-video hidden'>
       {{
         section.settings.video_2
         | video_tag:
@@ -75,7 +75,7 @@
         autoplay: true, 
         loop: true, 
         muted: true, 
-        controls: true,
+        controls: false,
          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
       }}
       </div>
@@ -183,19 +183,21 @@
   </div>
 
 </div>
-{%- comment -%} Custome logic to remove unneeded video RGreen{%- endcomment -%}
+{%- comment -%} Custom logic to remove unneeded video RGreen{%- endcomment -%}
 {% javascript %}
-        if (window.innerWidth < 769)
+        if (window.innerWidth < 990)
         { 
           var videoDiv = document.getElementsByClassName('desktop-banner-video')[0];
           var parent = document.getElementsByClassName('banner__media')[0];
           parent.removeChild(videoDiv);
+          document.getElementsByClassName('mobile-banner-video')[0].classList.remove("hidden");
         }
-        if (window.innerWidth > 768)
+        if (window.innerWidth > 989)
         { 
           var videoDiv = document.getElementsByClassName('mobile-banner-video')[0];
           var parent = document.getElementsByClassName('banner__media')[0];
           parent.removeChild(videoDiv);
+          document.getElementsByClassName('desktop-banner-video')[0].classList.remove("hidden");
         }
 {% endjavascript %}
 

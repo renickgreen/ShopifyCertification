@@ -2994,16 +2994,9 @@ details-disclosure > details {
   }
 }
 /* custom style for image-banner RGreen*/
-
-
-@media only screen and (min-width: 769px) {
-  
-  .desktop-banner-video{
-    text-align: center;
-    background-color: white;
-  }
+.desktop-banner-video > :first-child{
+  width: 100%;
 }
-
 #upsell_container{
   background-color: #D7FFE4;
 }
@@ -3012,6 +3005,7 @@ details-disclosure > details {
 }
 #upsell_container > div{
   display: flex;
+  justify-content: space-around;
 }
 #upsell_content > div > p, #upsell-title{
   margin: 5px 0px;
